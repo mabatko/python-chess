@@ -304,6 +304,10 @@ class King(Piece):
   def isMoveLegal(self, future_x_pos, future_y_pos, board):
     futurePosition = [future_x_pos, future_y_pos]
 
+    if not board.isFieldSafe(future_x_pos, future_y_pos, self.color):
+      print("Can't move to chessmate!")
+      return False
+
     validFields = self.returnValidFields(board)
 
     if futurePosition in validFields:

@@ -115,6 +115,16 @@ class Chessboard:
       return False
 
 
+  def isFieldSafe(self, xPos, yPos, myColor):
+    fieldInQuestion = [xPos, yPos]
+    for piece in self.pieces:
+      if piece.color != myColor:
+        validFields = piece.returnValidFields(self)
+        if fieldInQuestion in validFields:
+          return False
+    return True
+
+
   def isGameFinished(self):
     if not self.isPieceActive('WKK'):
       print("White king is dead. Black won!")
