@@ -53,6 +53,16 @@ class Player:
 
   def doMove(self):
     self.updatePieces()
+
+    # check if King is endangered
+    if self.color == "Black":
+      king = self.cb.returnPieceByName("BKK")
+    else:
+      king = self.cb.returnPieceByName("WKK")
+      
+    if not self.cb.isFieldSafe(king.x_position, king.y_position, king.color):
+      print("king has to move")
+    
     bestAttackPossible = self.bestAttackPossible()
     if bestAttackPossible[0] == 'NNN':
       while True:
