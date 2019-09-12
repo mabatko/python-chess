@@ -76,7 +76,6 @@ class Pawn(Piece):
     if board.isFieldValid(p[0], p[1]) and board.isEnemyOnTheField(p[0], p[1], self.color):
       validFields.append(p)
 
-
     if self.initialMoveNotDone:
       p = [self.x_position, self.y_position+2*upDown]
       if board.isFieldValid(p[0], p[1]) and board.isFieldEmpty(px[0], px[1]) and board.isFieldEmpty(p[0], p[1]):
@@ -85,7 +84,26 @@ class Pawn(Piece):
     #print(validFields)
 
     return validFields
+  
 
+  def returnPossibleTargetFields(self, board):
+    targetFields = []
+
+    if self.color == 'White':
+      upDown = 1
+    else:
+      upDown = -1    
+
+    p = [self.x_position-1, self.y_position+1*upDown]
+    if board.isFieldValid(p[0], p[1]):
+      targetFields.append(p)
+
+    p = [self.x_position+1, self.y_position+1*upDown]
+    if board.isFieldValid(p[0], p[1]):
+      targetFields.append(p)
+
+    return targetFields
+  
 
   def isMoveLegal(self, future_x_pos, future_y_pos, board):
     futurePosition = [future_x_pos, future_y_pos]

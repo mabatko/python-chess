@@ -119,7 +119,10 @@ class Chessboard:
     fieldInQuestion = [xPos, yPos]
     for piece in self.pieces:
       if piece.color != myColor:
-        validFields = piece.returnValidFields(self)
+        if piece.type == "Pawn":
+          validFields = piece.returnPossibleTargetFields(self)
+        else:
+          validFields = piece.returnValidFields(self)
         if fieldInQuestion in validFields:
           return False
     return True
