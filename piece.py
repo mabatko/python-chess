@@ -67,9 +67,9 @@ class Pawn(Piece):
     if board.isFieldValid(p[0], p[1]) and board.isEnemyOnTheField(p[0], p[1], self.color):
       validFields.append(p)
 
-    p = [self.x_position, self.y_position+1*upDown]
-    if board.isFieldValid(p[0], p[1]) and board.isFieldEmpty(p[0], p[1]):
-      validFields.append(p)
+    px = [self.x_position, self.y_position+1*upDown]
+    if board.isFieldValid(px[0], px[1]) and board.isFieldEmpty(px[0], px[1]):
+      validFields.append(px)
 
 
     p = [self.x_position+1, self.y_position+1*upDown]
@@ -79,7 +79,7 @@ class Pawn(Piece):
 
     if self.initialMoveNotDone:
       p = [self.x_position, self.y_position+2*upDown]
-      if board.isFieldValid(p[0], p[1]) and board.isFieldEmpty(p[0], p[1]) and board.isFieldEmpty(p[0], p[1]):
+      if board.isFieldValid(p[0], p[1]) and board.isFieldEmpty(px[0], px[1]) and board.isFieldEmpty(p[0], p[1]):
         validFields.append(p)
 
     #print(validFields)
