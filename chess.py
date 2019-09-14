@@ -32,18 +32,26 @@ while True:
           break
         else:
           print("Can't move black's piece!")
+          
     while True:
-      futureXPosition = int(input("Future X position:"))
-      if futureXPosition < 0 or futureXPosition > 7:
-        print("Invalid X position")
-      else:
-        break
+      try:
+        futureXPosition = int(input("Future X position:"))
+        if futureXPosition < 0 or futureXPosition > 7:
+          print("Invalid X position")
+        else:
+          break
+      except:
+        print("Enter number in range 0-7")
+
     while True:
-      futureYPosition = int(input("Future Y position:"))
-      if futureYPosition < 0 or futureYPosition > 7:
-        print("Invalid Y position")
-      else:
-        break
+      try:
+        futureYPosition = int(input("Future Y position:"))
+        if futureYPosition < 0 or futureYPosition > 7:
+          print("Invalid Y position")
+        else:
+          break
+      except:
+        print("Enter number in range 0-7")
 
   else:
     print("Black's turn:")
