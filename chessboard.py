@@ -119,7 +119,7 @@ class Chessboard:
   def isFieldSafe(self, xPos, yPos, myColor):
     fieldInQuestion = [xPos, yPos]
     for piece in self.pieces:
-      if piece.color != myColor:
+      if piece.color != myColor and piece.isActive:
         if piece.type == "Pawn":
           validFields = piece.returnPossibleTargetFields(self)
         else:
