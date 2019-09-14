@@ -1,15 +1,14 @@
 class Piece:
 
-  initialMoveNotDone = True
-  isActive = True
-
-  def __init__(self, type, name, color, x_position, y_position, board):
+  def __init__(self, type, name, color, x_position, y_position, board, moved, active):
     self.type = type
     self.name = name
     self.color = color
     self.x_position = x_position
     self.y_position = y_position
     board.createPiece(self)
+    self.initialMoveNotDone = moved
+    self.isActive = active
 
 
   def crawlFields(self, board, direction, fieldsList):
@@ -48,6 +47,12 @@ class Piece:
             break
       else:
         break
+
+
+  def returnJSON(self):
+    import json
+    data = {"type": self.type, "name": self.name, "color": self.color, "x_position": self.x_position, "y_position": self.y_position, "isActive": self.isActive, "initialMoveNotDone": self.initialMoveNotDone}
+    return data
 
 
 

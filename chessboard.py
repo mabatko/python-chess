@@ -2,6 +2,7 @@ class Chessboard:
 
   board = [[' - '] * 8 for i in range(8)]
   pieces = []
+  turns = 0
 
   x_axis = [' 0 ',' 1 ',' 2 ',' 3 ',' 4 ',' 5 ',' 6 ',' 7 ']
 
