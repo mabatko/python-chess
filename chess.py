@@ -1,4 +1,5 @@
 import os
+import re
 from chessboard import Chessboard
 from player import Player
 from loader import Loader
@@ -27,7 +28,10 @@ while True:
     while True:
       pieceToMove = input("Which piece to move?:")
       if CB.isPieceActive(pieceToMove):
-        break
+        if re.search("^W.*", pieceToMove):
+          break
+        else:
+          print("Can't move black's piece!")
     while True:
       futureXPosition = int(input("Future X position:"))
       if futureXPosition < 0 or futureXPosition > 7:
