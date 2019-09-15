@@ -26,6 +26,7 @@ class Chessboard:
     piece_name = self.board[y_pos][x_pos]
     pieceToDeactivate = self.returnPieceByName(piece_name)
     pieceToDeactivate.isActive = False
+    pieceToDeactivate.initialMoveNotDone = False
     print("Piece {} was removed from [{},{}]".format(piece_name,x_pos,y_pos))
 
 
@@ -89,6 +90,11 @@ class Chessboard:
       pieceToMove.y_position = int(future_y_pos)
       pieceToMove.initialMoveNotDone = False
       self.addPiece(pieceToMove)
+
+      #pawn promotion
+      if pieceToMove.type == "Pawn" and ((pieceToMove.color == "White" and pieceToMove.y_position == 7) or (pieceToMove.color == "Black" and pieceToMove.y_position == 0)):
+        self.promotion(pieceToMove)
+      
       return True
     else:
       print('The move is not legal')
@@ -149,6 +155,59 @@ class Chessboard:
           return False
     return True
 
+
+  def countPieceByType(self, typeName, color):
+    num = 0
+    for piece in self.pieces:
+      if piece.type == typeName and piece.color == color:
+        num += 1
+    return num
+
+
+  def promotion(self, pawnToPromote):
+    from piece import Rook, Bishop, Queen, Knight
+    print("Pawn {} on [{},{}] is going to be promoted".format(pawnToPromote.name, pawnToPromote.x_position, pawnToPromote.y_position))
+    if pawnToPromote.color == "White":
+      while True:
+        pieceType = input("Choose which type it will become: Queen, Knight, Rook, Bishop: ").upper()
+        if pieceType in ["QUEEN", "KNIGHT", "ROOK", "BISHOP"]:
+          break
+        else:
+          print("Incorrect type")
+    else:
+      pieceType = "QUEEN"
+      
+    if pieceType == "ROOK":
+      numOfPieces = self.countPieceByType("Rook", pawnToPromote.color)
+      if pawnToPromote.color == "White":
+        piece = Rook("Rook", "WR"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+      else:
+        piece = Rook("Rook", "BR"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+        
+    if pieceType == "QUEEN":
+      numOfPieces = self.countPieceByType("Queen", pawnToPromote.color)
+      if pawnToPromote.color == "White":
+        piece = Queen("Queen", "WQ"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+      else:
+        piece = Queen("Queen", "BQ"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+        
+    if pieceType == "BISHOP":
+      numOfPieces = self.countPieceByType("Bishop", pawnToPromote.color)
+      if pawnToPromote.color == "White":
+        piece = Bishop("Bishop", "WB"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+      else:
+        piece = Bishop("Bishop", "BB"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+
+    if pieceType == "KNIGHT":
+      numOfPieces = self.countPieceByType("Knight", pawnToPromote.color)
+      if pawnToPromote.color == "White":
+        piece = Knight("Knight", "WK"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+      else:
+        piece = Knight("Knight", "BK"+str(numOfPieces+1), pawnToPromote.color, pawnToPromote.x_position, pawnToPromote.y_position, self, False, True)
+        
+    self.addPiece(piece)
+    pawnToPromote.isActive = False
+    
 
   def isGameFinished(self):
     if not self.isPieceActive('WKK'):

@@ -26,7 +26,7 @@ while True:
     print("White's turn")
 
     while True:
-      pieceToMove = input("Which piece to move?:")
+      pieceToMove = input("Which piece to move?:").upper()
       if CB.isPieceActive(pieceToMove):
         if re.search("^W.*", pieceToMove):
           break

@@ -331,13 +331,15 @@ class King(Piece):
         
       # kingside
       p = [self.x_position+2, self.y_position]
-      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and KR2.initialMoveNotDone and board.isFieldEmpty(p[0]-1,p[1]) and board.isFieldEmpty(p[0],p[1]) and board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]-1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
-        validFields.append(p)
+      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and KR2.initialMoveNotDone and board.isFieldEmpty(p[0]-1,p[1]) and board.isFieldEmpty(p[0],p[1]):
+        if board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]-1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
+          validFields.append(p)
 
       # queenside
       p = [self.x_position-2, self.y_position]
-      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and QR1.initialMoveNotDone and board.isFieldEmpty(p[0]+1,p[1]) and board.isFieldEmpty(p[0],p[1]) and board.isFieldEmpty(p[0]-1,p[1]) and board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]+1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
-        validFields.append(p)
+      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and QR1.initialMoveNotDone and board.isFieldEmpty(p[0]+1,p[1]) and board.isFieldEmpty(p[0],p[1]) and board.isFieldEmpty(p[0]-1,p[1]):
+        if board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]+1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
+          validFields.append(p)
 
     #print(validFields)
     return validFields
