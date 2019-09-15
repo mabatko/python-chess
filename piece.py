@@ -320,6 +320,25 @@ class King(Piece):
     if board.isFieldValid(p[0], p[1]) and (board.isEnemyOnTheField(p[0], p[1], self.color) or board.isFieldEmpty(p[0], p[1])):
       validFields.append(p)
 
+    #castling
+    if self.initialMoveNotDone:
+      if self.color == 'White':
+        QR1 = board.returnPieceByName("WR1")
+        KR2 = board.returnPieceByName("WR2")
+      else:
+        QR1 = board.returnPieceByName("BR1")
+        KR2 = board.returnPieceByName("BR2")
+        
+      # kingside
+      p = [self.x_position+2, self.y_position]
+      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and KR2.initialMoveNotDone and board.isFieldEmpty(p[0]-1,p[1]) and board.isFieldEmpty(p[0],p[1]) and board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]-1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
+        validFields.append(p)
+
+      # queenside
+      p = [self.x_position-2, self.y_position]
+      if board.isFieldValid(p[0], p[1]) and self.initialMoveNotDone and QR1.initialMoveNotDone and board.isFieldEmpty(p[0]+1,p[1]) and board.isFieldEmpty(p[0],p[1]) and board.isFieldEmpty(p[0]-1,p[1]) and board.isFieldSafe(self.x_position, self.y_position, self.color) and board.isFieldSafe(p[0]+1, p[1], self.color) and board.isFieldSafe(p[0], p[1], self.color):
+        validFields.append(p)
+
     #print(validFields)
     return validFields
 

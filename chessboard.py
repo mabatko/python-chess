@@ -30,7 +30,8 @@ class Chessboard:
 
 
   def addPiece(self, piece):
-    self.board[piece.y_position][piece.x_position] = piece.name
+    if piece.isActive:
+      self.board[piece.y_position][piece.x_position] = piece.name
 
 
   def removePiece(self, piece):
@@ -61,6 +62,26 @@ class Chessboard:
     pieceToMove = self.returnPieceByName(piece_name)
     
     if pieceToMove.isMoveLegal(future_x_pos, future_y_pos, self):
+      # is this move castling?
+      if pieceToMove.type == "King" and abs(pieceToMove.x_position-future_x_pos) == 2:
+        if pieceToMove.color == "White":
+          if future_x_pos == 6:
+            rook = self.returnPieceByName("WR2")
+          else:
+            rook = self.returnPieceByName("WR1")
+        else:
+          if future_x_pos == 6:
+            rook = self.returnPieceByName("BR2")
+          else:
+            rook = self.returnPieceByName("BR1")
+        self.removePiece(rook)
+        if future_x_pos == 6:
+          rook.x_position = 5
+        else:
+          rook.x_position = 3
+        rook.initialMoveNotDone = False
+        self.addPiece(rook)
+        
       self.removePiece(pieceToMove)
       if not self.isFieldEmpty(future_x_pos, future_y_pos):
         self.deactivatePiece(future_x_pos, future_y_pos)

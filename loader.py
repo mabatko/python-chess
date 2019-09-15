@@ -111,7 +111,7 @@ class Loader():
     for piece in self.cb.pieces:
       data[piece.name] = piece.returnJSON()
     with open("save.json", "w") as saveFile:
-      json.dump(data, saveFile)
+      json.dump(data, saveFile, indent=4)
       
 
   def removeSave(self):
