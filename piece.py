@@ -14,7 +14,6 @@ class Piece:
   def crawlFields(self, board, direction, fieldsList):
     y_index = self.y_position
     x_index = self.x_position
-    enemyFound = False
     while True:
       if direction == 'North':
         y_index += 1
@@ -43,10 +42,7 @@ class Piece:
         else:
           if board.isEnemyOnTheField(x_index, y_index, self.color):
             fieldsList.append(p)
-            if not enemyFound:
-              enemyFound = True
-            else:
-              break
+            break
           else:
             break
       else:
