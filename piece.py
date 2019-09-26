@@ -348,8 +348,11 @@ class King(Piece):
   def isMoveLegal(self, future_x_pos, future_y_pos, board):
     futurePosition = [future_x_pos, future_y_pos]
 
+    #temporary hide king so we can check also squares in "shadow"
+    board.removePiece(self)
     if not board.isFieldSafe(future_x_pos, future_y_pos, self.color):
       print("Can't move to chessmate!")
+      board.addPiece(self)
       return False
 
     validFields = self.returnValidFields(board)
