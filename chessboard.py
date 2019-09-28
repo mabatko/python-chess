@@ -1,21 +1,38 @@
 class Chessboard:
 
-  board = [[' - '] * 8 for i in range(8)]
+  board = [[] * 8 for i in range(8)]
   pieces = []
   turns = 0
 
-  x_axis = [' 0 ',' 1 ',' 2 ',' 3 ',' 4 ',' 5 ',' 6 ',' 7 ']
+  x_axis = ['   0   ','   1   ','   2   ','   3   ','   4   ','   5   ','   6   ','   7   ']
 
   def __init__(self):
-    pass
+    from square import Square
+    for i in range(8):
+      for j in range(8):
+        if (i+j)%2:
+          self.board[i].append(Square("White", i, j))
+        else:
+          self.board[i].append(Square("Black", i, j))
 
 
   def printBoard(self):
     for i in range(8):
-      print(' ', ['   '] * 8)
-      print(7-i, self.board[7-i])
-      print(' ', ['   '] * 8)
-    print(' ', self.x_axis)
+      if not i % 2:
+        print(' ', '░░░░░░░▓▓▓▓▓▓▓' * 4)
+        print(7-i, end=' ')
+        for j in range(8):
+          print(self.board[7-i][j].printSquare(), end='')
+        print('')
+        print(' ', '░░░░░░░▓▓▓▓▓▓▓' * 4)
+      else:
+        print(' ', '▓▓▓▓▓▓▓░░░░░░░' * 4)
+        print(7-i, end=' ')
+        for j in range(8):
+          print(self.board[7-i][j].printSquare(), end='')
+        print('')
+        print(' ', '▓▓▓▓▓▓▓░░░░░░░' * 4)
+    print(' ', ''.join(self.x_axis))
 
 
   def createPiece(self, piece):
@@ -23,7 +40,7 @@ class Chessboard:
 
 
   def deactivatePiece(self, x_pos, y_pos):
-    piece_name = self.board[y_pos][x_pos]
+    piece_name = self.board[y_pos][x_pos].pieceOn
     pieceToDeactivate = self.returnPieceByName(piece_name)
     pieceToDeactivate.isActive = False
     pieceToDeactivate.initialMoveNotDone = False
@@ -32,11 +49,11 @@ class Chessboard:
 
   def addPiece(self, piece):
     if piece.isActive:
-      self.board[piece.y_position][piece.x_position] = piece.name
+      self.board[piece.y_position][piece.x_position].pieceOn = piece.name
 
 
   def removePiece(self, piece):
-    self.board[piece.y_position][piece.x_position] = ' - '
+    self.board[piece.y_position][piece.x_position].pieceOn = ' - '
 
 
   def returnPieceByName(self, piece_name):
@@ -109,7 +126,7 @@ class Chessboard:
 
 
   def isFieldEmpty(self, x_position, y_position):
-    if self.board[y_position][x_position] == ' - ':
+    if self.board[y_position][x_position].pieceOn == ' - ':
       return True
     else:
       return False
@@ -119,12 +136,12 @@ class Chessboard:
     import re
 
     if myColor == 'White':
-      if re.search("^B.*", self.board[y_position][x_position]):
+      if re.search("^B.*", self.board[y_position][x_position].pieceOn):
         return True
       else:
         return False
     else:
-      if re.search("^W.*", self.board[y_position][x_position]):
+      if re.search("^W.*", self.board[y_position][x_position].pieceOn):
         return True
       else:
         return False
