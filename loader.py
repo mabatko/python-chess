@@ -88,7 +88,14 @@ class Loader():
       for key in data:
         if key == "turns":
           self.cb.turns = data[key]
-        else:
+        if key == "lastMove":
+          self.cb.lastMove["pieceName"] = data[key]["pieceName"]
+          self.cb.lastMove["type"] = data[key]["type"]
+          self.cb.lastMove["origX"] = data[key]["origX"]
+          self.cb.lastMove["origY"] = data[key]["origY"]
+          self.cb.lastMove["futureX"] = data[key]["futureX"]
+          self.cb.lastMove["futureY"] = data[key]["futureY"]          
+        if key != "turns" and key != "lastMove":
           if data[key]["type"] == "Pawn":
             piece = Pawn(data[key]["type"], data[key]["name"], data[key]["color"], data[key]["x_position"], data[key]["y_position"], self.cb, data[key]["initialMoveNotDone"], data[key]["isActive"])
           if data[key]["type"] == "Rook":
@@ -108,6 +115,7 @@ class Loader():
   def saveGame(self):
     import json
     data = {"turns": self.cb.turns}
+    data["lastMove"] = {"pieceName": self.cb.lastMove["pieceName"], "type": self.cb.lastMove["type"], "origX": self.cb.lastMove["origX"], "origY": self.cb.lastMove["origY"], "futureX": self.cb.lastMove["futureX"], "futureY": self.cb.lastMove["futureY"]}
     for piece in self.cb.pieces:
       data[piece.name] = piece.returnJSON()
     with open("save.json", "w") as saveFile:

@@ -10,6 +10,7 @@ class Player:
 
   def updatePieces(self):
     self.myPieces = []
+    self.oponentsPieces = []
     for pieces in self.cb.pieces:
       if pieces.color == self.color and pieces.isActive:
         self.myPieces.append(pieces)
