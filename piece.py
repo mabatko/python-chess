@@ -367,8 +367,8 @@ class King(Piece):
       board.addPiece(self)
       if currentPieceName:
         board.addPiece(board.returnPieceByName(currentPieceName))
-      if board.isEnemyOnTheField(future_x_pos, future_y_pos, self.color):
-        print("Can't move to chessmate!")
+      if board.isEnemyOnTheField(future_x_pos, future_y_pos, self.color) or board.isFieldEmpty(future_x_pos, future_y_pos):
+        print("Can't move to checkmate!")
       return False
     else:
       board.removePiece(self)
@@ -377,8 +377,6 @@ class King(Piece):
       board.addPiece(self)
       if currentPieceName:
         board.addPiece(board.returnPieceByName(currentPieceName))    
-
-    board.addPiece(self)
 
     validFields = self.returnValidFields(board)
 
