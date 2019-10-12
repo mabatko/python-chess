@@ -3,7 +3,7 @@ class Chessboard:
   board = [[] * 8 for i in range(8)]
   pieces = []
   turns = 0
-  lastMove = {"pieceName": '', "type": '', "origX": -1, "origY": -1, "futureX": -1, "futureY": -1}
+  lastMove = {"pieceName": '', "type": '', "color": '', "origX": -1, "origY": -1, "futureX": -1, "futureY": -1}
   
 
   x_axis = ['   0   ','   1   ','   2   ','   3   ','   4   ','   5   ','   6   ','   7   ']
@@ -82,12 +82,10 @@ class Chessboard:
     pieceToMove = self.returnPieceByName(piece_name)
     
     if pieceToMove.isMoveLegal(future_x_pos, future_y_pos, self):
-      self.lastMove["pieceName"] = pieceToMove.name
-      self.lastMove["type"] = pieceToMove.type
-      self.lastMove["origX"] = pieceToMove.x_position
-      self.lastMove["origY"] = pieceToMove.y_position
-      self.lastMove["futureX"] = future_x_pos
-      self.lastMove["futureY"] = future_y_pos
+      # is this move En Passant?
+      if pieceToMove.type == "Pawn" and self.returnEnPassantSquare() == [future_x_pos, future_y_pos]:
+        self.deactivatePiece(self.lastMove["futureX"], self.lastMove["futureY"])
+        self.removePiece(self.returnPieceByName(self.lastMove["pieceName"]))
       
       # is this move castling?
       if pieceToMove.type == "King" and abs(pieceToMove.x_position-future_x_pos) == 2:
@@ -108,7 +106,15 @@ class Chessboard:
           rook.x_position = 3
         rook.initialMoveNotDone = False
         self.addPiece(rook)
-        
+
+      self.lastMove["pieceName"] = pieceToMove.name
+      self.lastMove["type"] = pieceToMove.type
+      self.lastMove["color"] = pieceToMove.color
+      self.lastMove["origX"] = pieceToMove.x_position
+      self.lastMove["origY"] = pieceToMove.y_position
+      self.lastMove["futureX"] = future_x_pos
+      self.lastMove["futureY"] = future_y_pos
+      
       self.removePiece(pieceToMove)
       if not self.isFieldEmpty(future_x_pos, future_y_pos):
         self.deactivatePiece(future_x_pos, future_y_pos)
@@ -233,6 +239,13 @@ class Chessboard:
         
     self.addPiece(piece)
     pawnToPromote.isActive = False
+
+
+  def returnEnPassantSquare(self):
+    if self.lastMove["type"] == "Pawn" and abs(self.lastMove["origY"] - self.lastMove["futureY"]) == 2:
+      return [self.lastMove["origX"],(self.lastMove["origY"] + self.lastMove["futureY"])/2]
+    else:
+      return []
     
 
   def isGameFinished(self):

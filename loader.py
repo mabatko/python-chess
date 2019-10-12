@@ -91,6 +91,7 @@ class Loader():
         if key == "lastMove":
           self.cb.lastMove["pieceName"] = data[key]["pieceName"]
           self.cb.lastMove["type"] = data[key]["type"]
+          self.cb.lastMove["color"] = data[key]["color"]
           self.cb.lastMove["origX"] = data[key]["origX"]
           self.cb.lastMove["origY"] = data[key]["origY"]
           self.cb.lastMove["futureX"] = data[key]["futureX"]
@@ -115,7 +116,7 @@ class Loader():
   def saveGame(self):
     import json
     data = {"turns": self.cb.turns}
-    data["lastMove"] = {"pieceName": self.cb.lastMove["pieceName"], "type": self.cb.lastMove["type"], "origX": self.cb.lastMove["origX"], "origY": self.cb.lastMove["origY"], "futureX": self.cb.lastMove["futureX"], "futureY": self.cb.lastMove["futureY"]}
+    data["lastMove"] = {"pieceName": self.cb.lastMove["pieceName"], "type": self.cb.lastMove["type"], "color": self.cb.lastMove["color"], "origX": self.cb.lastMove["origX"], "origY": self.cb.lastMove["origY"], "futureX": self.cb.lastMove["futureX"], "futureY": self.cb.lastMove["futureY"]}
     for piece in self.cb.pieces:
       data[piece.name] = piece.returnJSON()
     with open("save.json", "w") as saveFile:
