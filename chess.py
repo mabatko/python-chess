@@ -64,10 +64,8 @@ while True:
   
   if CB.movePiece(pieceToMove, futureXPosition, futureYPosition):
     CB.turns += 1
-
-  CB.printBoard()
-
-  LD.saveGame()
+    CB.printBoard()
+    LD.saveGame()
   
   if CB.isGameFinished():
     print("Game finished after {} turns".format(CB.turns))

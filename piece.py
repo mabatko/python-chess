@@ -347,13 +347,36 @@ class King(Piece):
 
   def isMoveLegal(self, future_x_pos, future_y_pos, board):
     futurePosition = [future_x_pos, future_y_pos]
+    current_x = self.x_position
+    current_y = self.y_position
+    currentPieceName = ''
 
-    #temporary hide king so we can check also squares in "shadow"
+    # prevent king to remove enemy piece and end up in check
+    # by moving to the field temporarly and checking safety
+    # and also check that way if squares in "shadow" are safe
+    if not board.isFieldEmpty(future_x_pos, future_y_pos):
+      currentPieceName = board.board[future_y_pos][future_x_pos].pieceOn
     board.removePiece(self)
+    self.x_position = future_x_pos
+    self.y_position = future_y_pos
+    board.addPiece(self)
     if not board.isFieldSafe(future_x_pos, future_y_pos, self.color):
-      print("Can't move to chessmate!")
+      board.removePiece(self)
+      self.x_position = current_x
+      self.y_position = current_y
       board.addPiece(self)
+      if currentPieceName:
+        board.addPiece(board.returnPieceByName(currentPieceName))
+      if board.isEnemyOnTheField(future_x_pos, future_y_pos, self.color):
+        print("Can't move to chessmate!")
       return False
+    else:
+      board.removePiece(self)
+      self.x_position = current_x
+      self.y_position = current_y
+      board.addPiece(self)
+      if currentPieceName:
+        board.addPiece(board.returnPieceByName(currentPieceName))    
 
     board.addPiece(self)
 
