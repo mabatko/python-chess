@@ -94,24 +94,3 @@ class Player:
     return [bestAttackerSoFar, bestVictimSoFarX, bestVictimSoFarY]
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

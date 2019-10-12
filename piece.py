@@ -355,6 +355,8 @@ class King(Piece):
       board.addPiece(self)
       return False
 
+    board.addPiece(self)
+
     validFields = self.returnValidFields(board)
 
     if futurePosition in validFields:
